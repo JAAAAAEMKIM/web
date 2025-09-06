@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "task-master-ai": {
+      "command": "npx",
+      "args": ["-y", "task-master-ai"],
+      "env": {
+        "PATH": "/Users/jaeminkim/.nvm/versions/node/v24.4.1/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  }
+}
