@@ -138,13 +138,5 @@ export default async function PostPage({ params }: PageProps) {
   )
 }
 
-export async function generateStaticParams() {
-  const posts = await db.post.findMany({
-    where: { isPublished: true },
-    select: { slug: true },
-  })
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
-}
+// Dynamic rendering - pages will be generated on-demand
+export const dynamic = 'force-dynamic'

@@ -2,6 +2,9 @@ import { MainLayout } from "@/components/main-layout"
 import { PostCard } from "@/components/post-card"
 import { db } from "@/lib/db"
 
+// Force dynamic rendering for all blog pages
+export const dynamic = 'force-dynamic'
+
 async function getBlogPosts() {
   const posts = await db.post.findMany({
     where: {
