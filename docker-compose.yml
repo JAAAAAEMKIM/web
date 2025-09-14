@@ -1,0 +1,29 @@
+# Development Docker Compose Configuration
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:./data/dev.db
+      - NEXTAUTH_SECRET=development-secret-key
+      - NEXTAUTH_URL=http://localhost:3000
+    volumes:
+      # Mount data directory for SQLite database persistence
+      - ./data:/app/data
+      # Optional: Mount uploads if you have user-uploaded images
+      - ./public/images:/app/public/images
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  app_data:

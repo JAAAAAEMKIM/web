@@ -1,0 +1,68 @@
+# Dependencies
+node_modules
+npm-debug.log*
+pnpm-debug.log*
+.pnpm-store
+
+# Testing
+coverage
+
+# Next.js
+.next/
+out/
+
+# Production
+build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+debug
+.nyc_output
+
+# Local env files (Note: DATABASE_URL will be set via docker-compose)
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Database files (mounted as volumes)
+*.db
+data/
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# IDE
+.vscode
+.idea
+
+# OS
+Thumbs.db
+
+# Deployment scripts
+deploy-*.sh
+*.pem
+*.key
+
+# Documentation
+*.md
+!prisma/*.md
+
+# Temporary files
+temp
+tmp
+*.tmp

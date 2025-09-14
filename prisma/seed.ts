@@ -219,6 +219,7 @@ async function main() {
       where: { slug },
       update: {},
       create: {
+        id: parseInt(parsedPost.postId),
         title: parsedPost.title,
         slug,
         content: parsedPost.content,

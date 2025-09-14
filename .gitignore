@@ -102,3 +102,15 @@ temp/
 .taskmaster
 
 .next
+
+dev-debug.log
+# Dependency directories
+.env
+.vscode
+.cursor
+.claude
+# OS specific
+
+# Task files
+tasks.json
+tasks/ 

@@ -27,15 +27,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Slug already exists" }, { status: 400 })
     }
 
+    // Get the next available ID
+    const maxPost = await db.post.findFirst({
+      orderBy: { id: 'desc' },
+    })
+    const nextId = (maxPost?.id ?? 0) + 1
+
     // Create the post
     const post = await db.post.create({
       data: {
+        id: nextId,
         title,
         slug,
         content,
         heroImageURL,
         categoryId: parseInt(categoryId),
         isPublished,
+        createdAt: new Date(),
       },
     })
 
