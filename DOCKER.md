@@ -166,7 +166,6 @@ GITHUB_TOKEN       # For container registry access
 ### Optional Secrets
 ```
 DEPLOY_PORT        # SSH port (default: 22)
-SLACK_WEBHOOK      # For deployment notifications
 ```
 
 ## 📊 Performance Metrics

@@ -117,17 +117,3 @@ jobs:
             docker image prune -f
 
             echo "Deployment completed successfully!"
-
-      - name: Notify deployment status
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          channel: '#deployments'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          text: |
-            Deployment to production ${{ job.status }}!
-            Commit: ${{ github.sha }}
-            Branch: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
