@@ -70,14 +70,15 @@ model Tag {
 }
 
 model Post {
-  id           Int       @id @default(autoincrement())
+  id           Int       @id
   slug         String    @unique
   title        String
   content      String
+  excerpt      String?
   heroImageURL String?
-  isPublished  Boolean   @default(false)
+  isPublished  Boolean   @default(true)
   views        Int       @default(0)
-  createdAt    DateTime  @default(now())
+  createdAt    DateTime
   updatedAt    DateTime  @updatedAt
   categoryId   Int
   category     Category  @relation(fields: [categoryId], references: [id])

@@ -1,0 +1,59 @@
+import { Metadata } from 'next'
+
+interface PostSeoProps {
+  title: string
+  description: string
+  slug: string
+  imageUrl?: string
+  publishedTime?: string
+  modifiedTime?: string
+}
+
+export function generatePostMetadata({
+  title,
+  description,
+  slug,
+  imageUrl,
+  publishedTime,
+  modifiedTime,
+}: PostSeoProps): Metadata {
+  const canonicalUrl = `https://jaaaaaemkim.com/blog/${slug}`
+  const siteName = '도리'
+
+  return {
+    title: `${title} :: ${siteName}`,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName,
+      type: 'article',
+      images: imageUrl ? [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        }
+      ] : undefined,
+      publishedTime,
+      modifiedTime,
+      authors: ['도리[Dori]'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+    other: {
+      'article:author': '도리[Dori]',
+    },
+  }
+}
+
+export default PostSeoProps

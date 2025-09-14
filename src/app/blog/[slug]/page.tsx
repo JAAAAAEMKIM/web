@@ -7,13 +7,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { db } from "@/lib/db"
+import { generatePostMetadata } from "@/components/post-seo"
 import { Eye, Calendar, Edit } from "lucide-react"
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-async function getPost(slug: string) {
+async function getPost(slug: string, incrementViews = true) {
   const post = await db.post.findUnique({
     where: {
       slug,
@@ -33,17 +34,49 @@ async function getPost(slug: string) {
     return null
   }
 
-  // Try to increment view count, but don't fail if it can't
-  try {
-    await db.post.update({
-      where: { id: post.id },
-      data: { views: { increment: 1 } },
-    })
-    return { ...post, views: post.views + 1 }
-  } catch (error) {
-    console.warn('Could not increment view count:', error)
-    return post
+  // Only increment view count if requested (not for metadata generation)
+  if (incrementViews) {
+    try {
+      await db.post.update({
+        where: { id: post.id },
+        data: { views: { increment: 1 } },
+      })
+      return { ...post, views: post.views + 1 }
+    } catch (error) {
+      console.warn('Could not increment view count:', error)
+      return post
+    }
   }
+
+  return post
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params
+  const post = await getPost(slug, false) // Don't increment views for metadata
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+      description: 'The requested blog post could not be found.',
+    }
+  }
+
+  // Generate excerpt from content if no explicit excerpt exists
+  const excerpt = post.excerpt || 
+    post.content
+      .replace(/<[^>]*>/g, '') // Remove HTML tags
+      .substring(0, 155)
+      .trim() + '...'
+
+  return generatePostMetadata({
+    title: post.title,
+    description: excerpt,
+    slug: post.slug,
+    imageUrl: post.heroImageURL || undefined,
+    publishedTime: post.createdAt.toISOString(),
+    modifiedTime: post.updatedAt.toISOString(),
+  })
 }
 
 export default async function PostPage({ params }: PageProps) {
