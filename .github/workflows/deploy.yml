@@ -112,10 +112,10 @@ jobs:
             docker pull ghcr.io/$REPO_LOWER:latest
 
             # Stop existing containers
-            docker compose -f docker-compose.prod.yml down || true
+            docker compose -f docker-compose.deploy.yml down || true
 
             # Start new containers
-            docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.deploy.yml up -d
 
             # Wait for health check
             echo "Waiting for application to be healthy..."
