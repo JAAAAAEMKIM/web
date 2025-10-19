@@ -107,8 +107,9 @@ jobs:
             # Login to GitHub Container Registry
             echo "$GITHUB_TOKEN" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
-            # Pull the latest image
-            docker pull ghcr.io/$GITHUB_REPOSITORY:latest
+            # Pull the latest image (convert to lowercase)
+            REPO_LOWER=$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')
+            docker pull ghcr.io/$REPO_LOWER:latest
 
             # Stop existing containers
             docker compose -f docker-compose.prod.yml down || true
