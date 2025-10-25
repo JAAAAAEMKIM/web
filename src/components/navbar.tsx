@@ -38,12 +38,12 @@ export function Navbar({ className }: NavbarProps) {
         {/* Profile Section */}
         <div className="flex flex-col items-center space-y-4">
           <Avatar className="h-20 w-20">
-            <AvatarImage src="/avatar.jpg" alt="Profile" />
+            <AvatarImage src="https://avatars.githubusercontent.com/u/43107046?v=4" alt="Profile" />
             <AvatarFallback>JK</AvatarFallback>
           </Avatar>
           <div className="text-center">
-            <h2 className="text-xl font-semibold">Your Name</h2>
-            <p className="text-sm text-muted-foreground">Software Developer</p>
+            <h2 className="text-xl font-semibold">Jaemin Kim</h2>
+            <p className="text-sm text-muted-foreground">Web Developer</p>
           </div>
         </div>
 
@@ -75,9 +75,9 @@ export function Navbar({ className }: NavbarProps) {
       {/* Mobile Navigation */}
       <div className="lg:hidden">
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-14 items-center justify-between">
+          <div className="flex h-14 items-center justify-between pl-4 pr-[6px] w-full">
             <Link href="/blog" className="font-semibold">
-              My Blog
+              JAAAAAEMKIM
             </Link>
             
             <Sheet open={isOpen} onOpenChange={setIsOpen}>

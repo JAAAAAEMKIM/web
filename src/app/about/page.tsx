@@ -34,15 +34,17 @@ export default function AboutPage() {
           <CardContent className="pt-6">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               <Avatar className="h-32 w-32">
-                <AvatarImage src="/avatar.jpg" alt="Profile Picture" />
+                <AvatarImage src="https://avatars.githubusercontent.com/u/43107046?v=4" alt="Profile Picture" />
                 <AvatarFallback className="text-2xl">JK</AvatarFallback>
               </Avatar>
               
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl font-bold mb-2">Your Name</h1>
+                <h1 className="text-3xl font-bold mb-2">Jaemin Kim</h1>
                 <p className="text-xl text-muted-foreground mb-4">
-                  Full Stack Software Developer
+                  Web Developer
                 </p>
+
+                <p className="text-muted-foreground mb-4"><em>Work In Progress...⚒️</em></p>
                 <p className="text-muted-foreground mb-4">
                   Passionate about creating beautiful, functional web applications 
                   and sharing knowledge through writing. I love working with modern 
