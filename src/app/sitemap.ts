@@ -1,34 +1,10 @@
 import { MetadataRoute } from 'next'
-import { db } from '@/lib/db'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://jaaaaaemkim.com'
 
-  // Fetch all published posts
-  const posts = await db.post.findMany({
-    where: {
-      isPublished: true,
-    },
-    select: {
-      slug: true,
-      updatedAt: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: 'desc',
-    },
-  })
-
-  // Generate post URLs
-  const postUrls = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.updatedAt,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
-
-  // Static pages
-  const staticPages = [
+  // Static pages only - no database access needed during build
+  return [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -48,6 +24,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
   ]
-
-  return [...staticPages, ...postUrls]
 }
