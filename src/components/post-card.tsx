@@ -14,6 +14,7 @@ interface PostCardProps {
     heroImageURL?: string | null
     views: number
     createdAt: Date
+    excerpt: string
     category: {
       name: string
     }
@@ -25,10 +26,12 @@ interface PostCardProps {
   }
 }
 
+export function decodeHtmlEntities(text: string): string {
+  return text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&nbsp;/g, ' ')
+}
+
 export function PostCard({ post }: PostCardProps) {
-  const excerpt = post.content.length > 150 
-    ? post.content.substring(0, 150) + "..." 
-    : post.content
+  const decodedExcerpt = decodeHtmlEntities(post.excerpt)
 
   const topTags = post.tags.slice(0, 3)
   
@@ -57,7 +60,7 @@ export function PostCard({ post }: PostCardProps) {
             {post.title}
           </h3>
           <p className="text-muted-foreground text-sm line-clamp-3">
-            {excerpt}
+            {decodedExcerpt}
           </p>
 
               <div className="flex items-center gap-4 text-xs text-muted-foreground mt-4">

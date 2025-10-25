@@ -1,0 +1,119 @@
+<!-- SEO Canonicalization Script for Tistory Blog Migration -->
+<!-- Place this script in your Tistory HTML skin editor, inside the <head> section -->
+<script type="text/javascript">
+(function() {
+    // URL mapping loaded from JSON file
+    // This will be populated dynamically by fetching the mapping
+    var tistoryToNextUrlMap = null;
+
+    // Your new domain configuration
+    var newDomain = 'https://jaaaaaemkim.com';
+    var blogPath = '/blog/';
+
+    // Function to check if current page is a post page
+    function isPostPage() {
+        var path = window.location.pathname;
+        // Tistory post URLs are typically numeric (e.g., /7, /123)
+        // This regex matches paths that are purely numeric
+        return /^\/\d+$/.test(path);
+    }
+
+    // Function to get current post ID from URL
+    function getCurrentPostId() {
+        var path = window.location.pathname;
+        return path.replace('/', ''); // Remove leading slash
+    }
+
+    // Function to inject canonical tag
+    function injectCanonicalTag(canonicalUrl) {
+        // Check if canonical tag already exists and remove it
+        var existingCanonical = document.querySelector('link[rel="canonical"]');
+        if (existingCanonical) {
+            existingCanonical.remove();
+        }
+
+        // Create and inject new canonical tag
+        var canonicalTag = document.createElement('link');
+        canonicalTag.rel = 'canonical';
+        canonicalTag.href = canonicalUrl;
+        document.head.appendChild(canonicalTag);
+
+        // Optional: Log for debugging (remove in production)
+        console.log('Canonical URL set to:', canonicalUrl);
+    }
+
+    // Function to load mapping from JSON file
+    function loadMapping(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', newDomain + '/tistory-url-mapping.json', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    try {
+                        tistoryToNextUrlMap = JSON.parse(xhr.responseText);
+                        callback(true);
+                    } catch (e) {
+                        console.error('Error parsing mapping JSON:', e);
+                        callback(false);
+                    }
+                } else {
+                    console.error('Error loading mapping JSON, status:', xhr.status);
+                    callback(false);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Main execution
+    function setupCanonicalUrl() {
+        // Only run on post pages
+        if (!isPostPage()) {
+            return;
+        }
+
+        var currentPostId = getCurrentPostId();
+        
+        // Load mapping and then set canonical URL
+        loadMapping(function(success) {
+            if (success && tistoryToNextUrlMap) {
+                var newSlug = tistoryToNextUrlMap[currentPostId];
+                
+                // If we have a mapping for this post, set canonical URL
+                if (newSlug) {
+                    var canonicalUrl = newDomain + blogPath + newSlug;
+                    injectCanonicalTag(canonicalUrl);
+                } else {
+                    // Optional: Log unmapped posts for debugging
+                    console.warn('No URL mapping found for Tistory post ID:', currentPostId);
+                }
+            } else {
+                console.error('Failed to load URL mappings');
+            }
+        });
+    }
+
+    // Execute when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCanonicalUrl);
+    } else {
+        setupCanonicalUrl();
+    }
+})();
+</script>
+
+<!-- 
+SETUP INSTRUCTIONS:
+1. Copy the above script and paste it into your Tistory HTML skin editor within the <head> section
+2. Update the tistoryToNextUrlMap object with your actual post mappings:
+   - Key: Tistory post ID (the number in the URL, e.g., '7' for /7)
+   - Value: Your new post slug (e.g., 'basecamp-week-2')
+3. Verify the newDomain variable matches your actual domain
+4. Test on a few posts to ensure canonical URLs are being set correctly
+5. Remove the console.log statements once you've verified it's working
+
+EXAMPLE MAPPING:
+If your Tistory post is at: https://blue-tang.tistory.com/7
+And your new post is at: https://jaaaaaemkim.com/blog/basecamp-week-2
+Then add this to the map: '7': 'basecamp-week-2'
+-->

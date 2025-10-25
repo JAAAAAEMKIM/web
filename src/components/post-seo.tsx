@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import slugToIdMapping from '../../slug-to-id.json'
 
 interface PostSeoProps {
   title: string
@@ -17,7 +18,11 @@ export function generatePostMetadata({
   publishedTime,
   modifiedTime,
 }: PostSeoProps): Metadata {
-  const canonicalUrl = `https://jaaaaaemkim.com/blog/${slug}`
+  // For beta phase: point canonical to original Tistory blog
+  const tistoryId = slugToIdMapping[slug as keyof typeof slugToIdMapping]
+  const canonicalUrl = tistoryId
+    ? `https://blue-tang.tistory.com/${tistoryId}`
+    : `https://jaaaaaemkim.com/blog/${slug}` // Fallback for new posts
   const siteName = '도리'
 
   return {
