@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { db } from "@/lib/db"
 import { generatePostMetadata } from "@/components/post-seo"
+import { generateBlogPostJsonLd } from "@/lib/json-ld"
 import { Eye, Calendar, Edit } from "lucide-react"
 
 interface PageProps {
@@ -87,8 +88,17 @@ export default async function PostPage({ params }: PageProps) {
     notFound()
   }
 
+  const postUrl = `https://jaaaaaemkim.com/blog/${slug}`
+  const jsonLdData = generateBlogPostJsonLd({ post, url: postUrl })
+
   return (
     <MainLayout>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdData }}
+      />
+
       <article className="max-w-4xl mx-auto">
         {/* Hero Image */}
         {post.heroImageURL && (

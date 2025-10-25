@@ -14,7 +14,7 @@ interface PostCardProps {
     heroImageURL?: string | null
     views: number
     createdAt: Date
-    excerpt: string
+    excerpt: string | null
     category: {
       name: string
     }
@@ -31,7 +31,7 @@ export function decodeHtmlEntities(text: string): string {
 }
 
 export function PostCard({ post }: PostCardProps) {
-  const decodedExcerpt = decodeHtmlEntities(post.excerpt)
+  const decodedExcerpt = decodeHtmlEntities(post.excerpt ?? '')
 
   const topTags = post.tags.slice(0, 3)
   
