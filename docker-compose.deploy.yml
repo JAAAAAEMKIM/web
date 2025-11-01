@@ -8,6 +8,8 @@ services:
     pull_policy: always  # Always pull the latest image on restart
     ports:
       - "3000:3000"
+    env_file:
+      - .env.production
     environment:
       - NODE_ENV=production
       - DATABASE_URL=file:./data/prod.db
