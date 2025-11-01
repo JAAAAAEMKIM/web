@@ -13,9 +13,6 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=file:./data/prod.db
-      # These should be defined in .env.production on the server
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
     volumes:
       # Mount data directory for SQLite database persistence
       - ./data:/app/data:rw
