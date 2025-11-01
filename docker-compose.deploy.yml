@@ -4,7 +4,7 @@
 
 services:
   app:
-    image: ghcr.io/jaeminkim/mysite:latest
+    image: ghcr.io/jaaaaaemkim/web:latest
     pull_policy: always  # Always pull the latest image on restart
     ports:
       - "3000:3000"
